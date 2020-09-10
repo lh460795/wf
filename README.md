@@ -9,7 +9,7 @@
 ## Installing
 
 ```shell
-$ composer require workflow/laravel-work -vvv
+$ composer require wf/laravel-work -vvv
 ```
 
 ## Usage
