@@ -18,7 +18,7 @@ TODO
 
 ## Contributing
 
-1.
+1.php artisan vendor:publish –provider="Lh\Workflow\WorkProvider"
 2.
 3.
 
