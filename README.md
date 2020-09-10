@@ -9,7 +9,7 @@
 ## Installing
 
 ```shell
-$ composer require wf/laravel-work -vvv
+$ composer require lh/laravel-work -vvv
 ```
 
 ## Usage
