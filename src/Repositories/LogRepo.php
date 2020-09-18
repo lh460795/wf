@@ -55,6 +55,9 @@ class LogRepo{
         if($table == 'adjust'){
             return \DB::table($table)->where('id',$id)->value('is_adjust');
         }
+        if ($table == 'complete'){
+            return \DB::table($table)->where('id',$id)->value('status');
+        }
 	    return '';
     }
 }

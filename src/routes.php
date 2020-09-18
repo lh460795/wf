@@ -11,9 +11,9 @@
 |
 */
 
-use Lh\Workflow\Facades\Work;
 
 // 工作流
+/*
 Route::any('/wf/wfindex','Lh\Workflow\Controllers\WorkController@wfindex');
 Route::any('/wf/wfdesc/{flow_id}','Lh\Workflow\Controllers\WorkController@wfdesc');
 Route::any('/wf/wfadd','Lh\Workflow\Controllers\WorkController@wfadd');
@@ -41,3 +41,4 @@ Route::any('/wf/wfup','Lh\Workflow\Controllers\WorkController@wfup');
 Route::any('/wf/wfend','Lh\Workflow\Controllers\WorkController@wfend');
 Route::any('/wf/wfupsave','Lh\Workflow\Controllers\WorkController@wfupsave');
 Route::any('/wf/wfupsave','Lh\Workflow\Controllers\WorkController@wfupsave');
+*/

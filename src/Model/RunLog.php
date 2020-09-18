@@ -12,34 +12,51 @@ class RunLog extends Model{
 
     /**
      * 审核意见
-	 * @param $form_id 主键id
-	 * @param $from_table 关联的表名
+     * @param $form_id 主键id
+     * @param $from_table 关联的表名
+     * @param $table_type 审核日志状态
      **/
-    public static function log($from_id,$from_table){
-        $where = function($query)use($from_id,$from_table){
+    public static function log($from_id,$from_table,$table_type=''){
+        $where = function($query)use($from_id,$from_table,$table_type){
             if($from_table == 'adjust'){
                 //调整终止审核记录多加一个条件
                 return $query->where([
-                                        'from_id'       =>$from_id,
-                                        'from_table'    =>$from_table,
-                                        'table_type'    =>2,
-                                    ]);
-            } else {
+                    'from_id'       =>$from_id,
+                    'from_table'    =>$from_table,
+                    'table_type'    =>2,
+                ]);
+            } elseif ($from_table == 'complete'){
+                //出库 未完结 审核记录多加一个条件
+                //判断是否传过来了 $table_type  来查询对应的日志或者所有日志
+                if (!$table_type){
+                    return $query->where([
+                        'from_id'       =>$from_id,
+                        'from_table'    =>$from_table,
+                    ]);
+                }else{
+                    return $query->where([
+                        'from_id'       =>$from_id,
+                        'from_table'    =>$from_table,
+                        'table_type'    =>$table_type,
+                    ]);
+                }
+
+            }else {
                 return $query->where([
-                                        'from_id'       =>$from_id,
-                                        'from_table'    =>$from_table,
-                                    ]);
+                    'from_id'       =>$from_id,
+                    'from_table'    =>$from_table,
+                ]);
             }
         };
-    	// default系统默认审核通过的，不用展示
-    	$log = self::where($where)->where('btn', '<>', 'default')
-                ->orderBy('dateline', 'asc')
-    			->get(['id','uid','content','btn','created_at','run_process','flow_process','table_type'])->toArray();
+        // default系统默认审核通过的，不用展示
+        $log = self::where($where)->where('btn', '<>', 'default')
+            ->orderBy('dateline', 'asc')
+            ->get(['id','uid','content','btn','created_at','run_process','flow_process','table_type'])->toArray();
 
-    	if($log){
-    		foreach ($log as $key => $value) {
-    		    if($value['flow_process'] == 0)
-    		    {
+        if($log){
+            foreach ($log as $key => $value) {
+                if($value['flow_process'] == 0)
+                {
                     $log[$key]['content']='';
                     //该记录用户角色名
                     $log[$key]['rolename'] = '立项单位';
@@ -58,21 +75,21 @@ class RunLog extends Model{
 
                     $log[$key]['content'] = $value['content'] ?? '';
                 }
-    		}
-    		foreach ($log as $k=>$v)
-    		{
-    		    if(in_array($v['rolename'],['科室','副秘书长','"五化"办','五化办人员','五化办主任']))
-    		    {
-    		        if(stristr($v['btn'],'退回')){
+            }
+            foreach ($log as $k=>$v)
+            {
+                if(in_array($v['rolename'],['科室','副秘书长','"五化"办','五化办人员','五化办主任']))
+                {
+                    if(stristr($v['btn'],'退回')){
 
                     }else{
                         $log[$k]['content']='';
                     }
                 }
             }
-    	}
+        }
 
-    	return $log;
+        return $log;
     }
 
     //返回操作日志 通过 退回 送审
