@@ -15,7 +15,9 @@ TODO
 
 ## Contributing
 
-php artisan vendor:publish –provider="Lh\Workflow\WorkProvider"
+#指定provider
+
+php artisan vendor:publish --provider="Lh\Workflow\WorkProvider"
 
 
 ## License
